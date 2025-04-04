@@ -45,18 +45,4 @@ If you would like to compute scores on the development set of ASVspoof 2019 simp
 python main.py --track=DF --loss=CCE --eval --model_path='/path/to/your/best_model.pth' --eval_output='dev_CM_scores.txt'
 ```
 
-## Contact
-For any query regarding this repository, please contact:
-- Hemlata Tak: tak[at]eurecom[dot]fr
-## Citation
-If you use this code in your research please use the following citation:
-```bibtex
-@INPROCEEDINGS{9414234,
-  author={Tak, Hemlata and Patino, Jose and Todisco, Massimiliano and Nautsch, Andreas and Evans, Nicholas and Larcher, Anthony},
-  booktitle={IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)}, 
-  title={End-to-End anti-spoofing with RawNet2}, 
-  year={2021},
-  pages={6369-6373}
-}
-
 ```
