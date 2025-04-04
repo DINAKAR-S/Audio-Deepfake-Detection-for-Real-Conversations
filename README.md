@@ -1,48 +1,98 @@
-# RawNet2 ASVspoof 2021 baseline
+# 🎙️ Audio Deepfake Detection using RawNet2
 
-------
+This repository contains an implementation of **RawNet2**, an end-to-end deep learning model for detecting AI-generated (spoofed) human speech. The model is trained and evaluated on the ASVspoof 2019 Logical Access (LA) dataset.
 
-The code in this repository serves as one of the baselines of the ASVspoof 2021 challenge, using an end-to-end method that uses a model based on the RawNet2 topology as described [here](https://arxiv.org/abs/2011.01108).
+---
 
-## Installation
-First, clone the repository locally, create and activate a conda environment, and install the requirements :
+## 🔍 Project Overview
+
+- **Goal:** Detect AI-generated (deepfake) speech in real-time or near real-time using efficient deep learning models.
+- **Use Case:** Analyze real-world conversations and voice recordings to flag fake (TTS/VC-generated) audio.
+- **Model Implemented:** RawNet2 (ICASSP 2021)
+
+---
+
+## 📌 Key Features
+
+- End-to-end training on raw waveform inputs.
+- Utilizes Sinc filters and GRU-based structure to extract robust temporal features.
+- Compatible with ASVspoof 2019 LA dataset.
+- CPU-friendly implementation for low-resource environments.
+
+---
+
+## 📚 Dataset
+
+We use the [ASVspoof 2019 Logical Access](https://doi.org/10.7488/ds/2555) dataset.
+
+Directory structure:
 ```
-$ git clone https://github.com/asvspoof-challenge/2021.git
-$ cd 2021/LA/Baseline-RawNet2/
-$ conda create --name rawnet_anti_spoofing python=3.6.10
-$ conda activate rawnet_anti_spoofing
-$ conda install pytorch=1.4.0 -c pytorch
-$ pip install -r requirements.txt
-```
-
-## Experiments
-
-### Dataset
-Our model for the deepfake (DF) track is trained on the logical access (LA) train  partition of the ASVspoof 2019 dataset, which can can be downloaded from [here](https://datashare.is.ed.ac.uk/handle/10283/3336).
-
-### Training
-To train the model run:
-```
-python main.py --track=DF --loss=CCE   --lr=0.0001 --batch_size=32
-```
-
-### Testing
-
-To test your own model on the ASVspoof 2021 DF evaluation set:
-
-```
-python main.py --track=DF --loss=CCE --is_eval --eval --model_path='/path/to/your/your_best_model.pth' --eval_output='eval_CM_scores.txt'
-```
-
-We also provide a pre-trained model which follows a Mel-scale distribution of the sinc filters at the input layer, which can be downloaded from [here](https://www.asvspoof.org/asvspoof2021/pre_trained_DF_RawNet2.zip). To use it you can run: 
-```
-python main.py --track=DF --loss=CCE --is_eval --eval --model_path='/path/to/your/pre_trained_DF_model.pth' --eval_output='pre_trained_eval_CM_scores.txt'
+data/
+├── LA/
+│   ├── ASVspoof2019_LA_train/
+│   ├── ASVspoof2019_LA_dev/
+│   ├── ASVspoof2021_LA_eval/
+│   └── protocols/
 ```
 
-If you would like to compute scores on the development set of ASVspoof 2019 simply run:
+---
 
-```
-python main.py --track=DF --loss=CCE --eval --model_path='/path/to/your/best_model.pth' --eval_output='dev_CM_scores.txt'
+## 🛠️ Installation
+
+```bash
+# Clone repo
+git clone https://github.com/<your-username>/audio-deepfake-rawnet2.git
+cd audio-deepfake-rawnet2
+
+# Create virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install dependencies
+pip install -r requirements.txt
 ```
 
+---
+
+## 🚀 Training & Evaluation
+
+### ▶️ Train the Model
+```bash
+python main.py --database_path ./data/LA/ --protocols_path ./data/LA/ --num_epochs 5
 ```
+
+### 📊 Evaluate
+```bash
+python main.py --eval --model_path models/model_LA_weighted_CCE_5_8_0.0001/epoch_4.pth \
+--eval_output results/eval_scores.txt --database_path ./data/LA/ --protocols_path ./data/LA/
+```
+
+---
+
+## 📈 Results (Example)
+
+| Metric        | Value     |
+|---------------|-----------|
+| Train Accuracy | 100%      |
+| Validation Accuracy | ~10.2% (early stopping) |
+| Epochs        | 5         |
+| Device Used   | CPU (no GPU) |
+
+---
+
+## 🧠 Model Summary
+
+RawNet2 is a lightweight end-to-end model that:
+- Uses SincConv filters to process raw waveforms.
+- Learns discriminative embeddings via GRU + Fully connected layers.
+- Performs binary classification (bonafide vs spoofed).
+
+---
+
+## 💡 Future Improvements
+
+- Add data augmentation (e.g., noise injection with MUSAN).
+- Try other models (AASIST, ResMax) for comparison.
+- Deploy real-time inference pipeline via Streamlit or FastAPI.
+
+---
