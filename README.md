@@ -23,7 +23,7 @@ This repository contains an implementation of **RawNet2**, an end-to-end deep le
 
 ## 📚 Dataset
 
-We use the [ASVspoof 2019 Logical Access](https://doi.org/10.7488/ds/2555) dataset.
+We use the [ASVspoof 2019 Logical Access](https://datashare.is.ed.ac.uk/handle/10283/3336) dataset.
 
 Directory structure:
 ```
