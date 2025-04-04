@@ -21,35 +21,100 @@ This repository contains an implementation of **RawNet2**, an end-to-end deep le
 
 ---
 
-## 📚 Dataset
+### 📦 Python Environment
 
-We use the [ASVspoof 2019 Logical Access](https://datashare.is.ed.ac.uk/handle/10283/3336) dataset.
+**Python Version:** `3.6` or higher (tested with Python 3.10)
 
-Directory structure:
+### 📁 Project Directory Structure
+
 ```
-data/
-├── LA/
-│   ├── ASVspoof2019_LA_train/
-│   ├── ASVspoof2019_LA_dev/
-│   ├── ASVspoof2021_LA_eval/
-│   └── protocols/
+audio-deepfake-rawnet2/
+│
+├── data/
+│   └── LA/
+│       ├── ASVspoof2019_LA_train/
+│       ├── ASVspoof2019_LA_dev/
+│       ├── ASVspoof2021_LA_eval/
+│       └── protocols/
+├── main.py
+├── model.py
+├── data_utils.py
+├── model_config_RawNet.yaml
+├── requirements.txt
+├── README.md
+└── models/ (generated after training)
 ```
 
 ---
 
-## 🛠️ Installation
+### 🔧 Setup Instructions
 
+1. **Clone the Repository**
 ```bash
-# Clone repo
-git clone https://github.com/<your-username>/audio-deepfake-rawnet2.git
+git clone https://github.com/DINAKAR-S/Audio-Deepfake-Detection-for-Real-Conversations.git
 cd audio-deepfake-rawnet2
+```
 
-# Create virtual environment
+2. **Create and Activate Virtual Environment**
+```bash
+# Create venv
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
 
-# Install dependencies
+# Activate it
+# On Windows:
+venv\Scripts\activate
+# On Linux/macOS:
+source venv/bin/activate
+```
+
+3. **Install Required Packages**
+```bash
 pip install -r requirements.txt
+```
+
+---
+
+### 📄 `requirements.txt` (Sample Content)
+
+```
+torch==1.12.1
+librosa
+numpy
+PyYAML
+tensorboardX
+scikit-learn
+```
+
+> ✅ **Note**: You can install the latest compatible version of `torch` if `1.12.1` fails on your system:
+```bash
+pip install torch
+```
+
+---
+
+### 📥 Dataset Setup (ASVspoof 2019 LA)
+
+1. Visit [ASVspoof 2019 Dataset](https://datashare.is.ed.ac.uk/handle/10283/3336)
+2. Download the following:
+   - `ASVspoof2019_LA_train.zip`
+   - `ASVspoof2019_LA_dev.zip`
+   - `ASVspoof2021_LA_eval.zip`
+   - Protocol files from: `ASVspoof2019_LA_cm_protocols` and `ASVspoof2021_LA_cm_protocols`
+3. Extract all under:  
+   `./data/LA/`
+
+---
+
+### 📌 Reproducibility Notes
+
+- Set seed using `--seed` flag to ensure reproducibility:
+```bash
+--seed 1234
+```
+- Ensure all three datasets (`train`, `dev`, `eval`) are in the same root path.
+- Paths can be customized in `main.py` or passed via CLI:
+```bash
+--database_path ./data/LA/ --protocols_path ./data/LA/
 ```
 
 ---
